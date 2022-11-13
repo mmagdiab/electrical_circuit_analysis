@@ -1,9 +1,4 @@
-import numpy as np
-import pandas as pd
-
-from branch import Branch
-from itertools import chain
-
+from random import shuffle
 
 """ Get a valid tree/co-tree of the electrical circuit
 
@@ -26,10 +21,13 @@ Returns:
 
 
 def tree(circuit_branches):
+    # Next line to get a random tree each time
+    shuffle(circuit_branches)
     # GET NUMBER OF NODES
     nodes = []
     for branch in circuit_branches:
-        nodes.append(branch.starting_node, branch.ending_node)
+        nodes.append(branch.starting_node)
+        nodes.append(branch.ending_node)
     nodes = set(nodes)
     nodes_count = len(nodes)
 
@@ -37,25 +35,27 @@ def tree(circuit_branches):
     branches_count = nodes_count - 1
 
     # GET NUMBER OF LINKS
-    links_count = len(circuit_branches) - branches_count
+    # links_count = len(circuit_branches) - branches_count
 
     """
     STARTING FROM THE FIRST BRANCH, KEEP ADDING MORE BRANCHES TO THE TREE
     IF THE BRANCH ENDING NODE DOESN'T CONTAIN A NODE ADDED BEFORE
     """
-    nodes_add_to_tree = []
+    nodes_added_to_tree = []
     tree_branches = []
-    links = []
 
-    for index, branch in enumerate(circuit_branches):
-        if index == 0:
-            nodes_add_to_tree.append(branch.starting_node, branch.ending_node)
-            tree_branches.append(branch)
-        else:
-            if branch.ending_node not in nodes_add_to_tree:
-                nodes_add_to_tree.append(branch.ending_node)
+    # Initially insert first branch to the tree
+    nodes_added_to_tree.append(circuit_branches[0].starting_node)
+    nodes_added_to_tree.append(circuit_branches[0].ending_node)
+    tree_branches.append(circuit_branches[0])
+
+    while len(tree_branches) < branches_count:
+        for index, branch in enumerate(circuit_branches):
+            if index == 0:
+                continue
+            if branch.ending_node not in nodes_added_to_tree and branch.starting_node in nodes_added_to_tree:
+                nodes_added_to_tree.append(branch.ending_node)
                 tree_branches.append(branch)
-            else:
-                links.append(branch)
 
+    links = [branch for branch in circuit_branches if branch not in tree_branches]
     return tree_branches, links
