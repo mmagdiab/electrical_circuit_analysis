@@ -67,6 +67,8 @@ def generate_graph(tree_branches, links):
     
     # Create a Directed Graph object
     G = nx.DiGraph()
+    options = {"edgecolors": "tab:gray", "node_size": 500, "alpha": 0.9}
+
 
     #Count Nodes and add these nodes to the graph
     nodeList = []
@@ -78,18 +80,19 @@ def generate_graph(tree_branches, links):
     
     # remove any douplicated nodes
     nodeList = set(nodeList)
-    
+    pos = nx.spring_layout(G)
+    nx.draw_networkx_nodes(G, pos, nodelist=nodeList, node_color="tab:red", **options)
     
     #edges (Branch data) contains starting, ending, current in branch, voltage on branch
     edgesList = []
     for i in tree_branches:
         #These str(2), str(3) should be replaced by the its corresponding values in the Voltage and Current matrices
-        edgesList.append((i.starting_node, i.ending_node,str("Tree\n") + str(2)+" mA, " + str(3)+" V" ))
+        edgesList.append((i.starting_node, i.ending_node,str(chr(97+i.sequence))+str("\nTree\n") + str(2)+" mA, " + str(3)+" V" ))
     
     
     for i in links:
         #These str(4), str(5) should be replaced by the its corresponding values in the Voltage and Current matrices
-        edgesList.append((i.starting_node, i.ending_node, str("Link\n") +str(4)+" mA, " + str(5)+" V" ))
+        edgesList.append((i.starting_node, i.ending_node, str(chr(97+i.sequence))+str("\nLink\n") +str(4)+" mA, " + str(5)+" V" ))
     
     
     for i in edgesList:
@@ -98,10 +101,31 @@ def generate_graph(tree_branches, links):
     print("Node List :",G.nodes())
     print("Edge List :",G.edges())
     
-    pos = nx.spring_layout(G)
+    
     colors = range(20)
-    nx.draw(G,alpha=1, with_labels = True, node_color= 'green')     
+    nx.draw_networkx_edges(G, pos, width=1.0, alpha=0.5)
+    nx.draw_networkx_edges(
+    G,
+    pos,
+    edgelist=edgesList[:len(tree_branches)],
+    width=8,
+    alpha=0.5,
+    edge_color="tab:green",
+    )
+    
+    nx.draw_networkx_edges(
+        G,
+        pos,
+        edgelist=edgesList[-len(links):],
+        width=8,
+        alpha=0.5,
+        edge_color="tab:blue",
+    )
+
+    #nx.draw(G,alpha=1, with_labels = True, node_color= 'green')     
+    nx.draw_networkx_labels(G, pos, font_size=18, font_color="whitesmoke")
+
     #nx.draw(G,pos, edge_color = colors,width =4, edge_cmap= plt.cm.Blues)
-    nx.draw_networkx_edge_labels(G,pos, font_size=8,edge_labels=nx.get_edge_attributes(G,'edgesList'))
+    nx.draw_networkx_edge_labels(G,pos, font_size=8,edge_labels=nx.get_edge_attributes(G,'edgesList'),label_pos=0.3)
     
     plt.show()
