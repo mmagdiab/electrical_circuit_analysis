@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from branch import *
 from utils import *
-
+from utils_b import solve
 
 class Ui(object):
 
@@ -54,12 +54,12 @@ class Ui(object):
         self.resistance_label.setObjectName("resistance_label")
 
         self.jb_label = QtWidgets.QLabel(self.central_widget)
-        self.jb_label.setGeometry(QtCore.QRect(50, 410, 51, 16))
+        self.jb_label.setGeometry(QtCore.QRect(40, 370, 1000, 150))
         self.jb_label.setFont(font)
         self.jb_label.setObjectName("jb_label")
 
         self.vb_label = QtWidgets.QLabel(self.central_widget)
-        self.vb_label.setGeometry(QtCore.QRect(230, 410, 51, 16))
+        self.vb_label.setGeometry(QtCore.QRect(40, 420, 1000, 150))
         self.vb_label.setFont(font)
         self.vb_label.setObjectName("vb_label")
 
