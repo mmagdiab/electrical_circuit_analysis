@@ -168,3 +168,6 @@ class Ui(object):
         print('0000000000000000000-------------------0000000000000000')
         for branch in links:
             print(branch)
+            
+        #Call generating graph function.
+        generate_graph (tree_branches=tree_branches, links=links)
