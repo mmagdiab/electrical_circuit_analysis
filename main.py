@@ -7,7 +7,7 @@ def main():
     import sys
     app = QtWidgets.QApplication(sys.argv)
     main_window = QtWidgets.QMainWindow()
-    Ui(main_window)
+    ui = Ui(main_window)
     main_window.show()
     sys.exit(app.exec_())
 
