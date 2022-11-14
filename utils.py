@@ -63,7 +63,7 @@ def tree(circuit_branches):
     links = [branch for branch in circuit_branches if branch not in tree_branches]
     return tree_branches, links
 
-def generate_graph(tree_branches, links):
+def generate_graph(tree_branches, links, vb, jb):
     
     # Create a Directed Graph object
     G = nx.DiGraph()
@@ -85,14 +85,16 @@ def generate_graph(tree_branches, links):
     
     #edges (Branch data) contains starting, ending, current in branch, voltage on branch
     edgesList = []
-    for i in tree_branches:
+    
+    
+    for i in range(0,len(tree_branches)):
         #These str(2), str(3) should be replaced by the its corresponding values in the Voltage and Current matrices
-        edgesList.append((i.starting_node, i.ending_node,str(chr(97+i.sequence))+str("\nTree\n") + str(2)+" mA, " + str(3)+" V" ))
+        edgesList.append((tree_branches[i].starting_node, tree_branches[i].ending_node, str(chr(97+tree_branches[i].sequence)) + str("\nTree\n") + str(jb[i]) + " A\n" + str(vb[i]) + " V\n" ))
     
     
-    for i in links:
+    for i in range(0,len(links)):
         #These str(4), str(5) should be replaced by the its corresponding values in the Voltage and Current matrices
-        edgesList.append((i.starting_node, i.ending_node, str(chr(97+i.sequence))+str("\nLink\n") +str(4)+" mA, " + str(5)+" V" ))
+        edgesList.append((links[i].starting_node, links[i].ending_node, str(chr(97+links[i].sequence))+str("\nLink\n") +str(jb[i+len(tree_branches)])+" A\n" + str(vb[i+len(tree_branches)])+" V\n" ))
     
     
     for i in edgesList:

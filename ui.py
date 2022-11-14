@@ -169,5 +169,7 @@ class Ui(object):
         for branch in links:
             print(branch)
             
+        vb = [4.285714, 2.857143, -4.285714, 1.428571]
+        jb = [0.857143, 0.285714, 1.142857, 0.285714]
         #Call generating graph function.
-        generate_graph (tree_branches=tree_branches, links=links)
+        generate_graph (tree_branches=tree_branches, links=links, vb=vb, jb=jb)
