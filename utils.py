@@ -26,7 +26,7 @@ Returns:
 
 def tree(circuit_branches):
     # Next line to get a random tree each time
-    shuffle(circuit_branches)
+    # shuffle(circuit_branches)
     # GET NUMBER OF NODES
     nodes = []
     for branch in circuit_branches:
@@ -71,12 +71,14 @@ def tree(circuit_branches):
 
 
 def get_z_b(circuit_branches):
+    tree_branches, links = tree(circuit_branches)
+    branches = tree_branches + links
     n = len(circuit_branches)
     z_b = np.zeros(shape=(n, n), dtype='int64')
-    print(z_b)
-    for index, branch in enumerate(circuit_branches):
+    for index, branch in enumerate(branches):
         if branch.resistance != 0:
             z_b[index][index] = branch.resistance
+    return z_b
 
     """ get_i_b
        @Params: circuit_branches
@@ -85,11 +87,17 @@ def get_z_b(circuit_branches):
 
 
 def get_i_b(circuit_branches):
+    tree_branches, links = tree(circuit_branches)
+    branches = tree_branches + links
     n = len(circuit_branches)
-    i_b = np.zeros(shape=(n, 1), dtype='int64')
-    for index, branch in enumerate(circuit_branches):
-        if branch.current_source != 0:
-            i_b[index][1] = branch.current_source
+    # i_b = np.zeros(shape=(n, 1), dtype='int64')
+    i_b = []
+    for index, branch in enumerate(branches):
+        # if branch.current_source != 0:
+        # i_b[index][1] = branch.current_source
+        i_b.append(branch.current_source)
+
+    return i_b
 
     """ get_i_b
        @Params: circuit_branches
@@ -98,12 +106,16 @@ def get_i_b(circuit_branches):
 
 
 def get_e_b(circuit_branches):
+    tree_branches, links = tree(circuit_branches)
+    branches = tree_branches + links
     n = len(circuit_branches)
-    e_b = np.zeros(shape=(n, 1), dtype='int64')
-    print(e_b)
-    for index, branch in enumerate(circuit_branches):
-        if branch.voltage_source != 0:
-            e_b[index][1] = branch.voltage_source
+    # e_b = np.zeros(shape=(n, 1), dtype='int64')
+    e_b = []
+    for index, branch in enumerate(branches):
+        # if branch.voltage_source != 0:
+        #    e_b[index][0] = branch.voltage_source
+        e_b.append(branch.voltage_source)
+    return e_b
 
     """ get_a_tree_or_links
        @Params: tree_branches or links
@@ -111,24 +123,27 @@ def get_e_b(circuit_branches):
     """
 
 
-def get_a_matrix(branches):
+def get_a_matrix(circuit_branches):
     # First get nodes count
     nodes = []
-    for branch in branches:
+    for branch in circuit_branches:
         nodes.append(branch.starting_node)
         nodes.append(branch.ending_node)
 
     nodes_count = len(set(nodes))
-    a_matrix = np.zeros(shape=(nodes_count, len(branches)), dtype='int64')
-    for index, branch in enumerate(branches):
-        a_tree[branch.starting_node][index] = 1
-        a_tree[branch.ending_node][index] = -1
 
-    return a_matrix
+    tree_branches, links = tree(circuit_branches)
+    a_matrix_tree = np.zeros(shape=(nodes_count, len(tree_branches)), dtype='int64')
+    for index, branch in enumerate(tree_branches):
+        a_matrix_tree[branch.starting_node-1][index] = 1
+        a_matrix_tree[branch.ending_node-1][index] = -1
 
+    a_matrix_link = np.zeros(shape=(nodes_count, len(links)), dtype='int64')
+    for index, branch in enumerate(links):
+        a_matrix_link[branch.starting_node-1][index] = 1
+        a_matrix_link[branch.ending_node-1][index] = -1
 
-
-
+    return a_matrix_tree, a_matrix_link
 
 
 def generate_graph(tree_branches, links):
@@ -149,15 +164,14 @@ def generate_graph(tree_branches, links):
     pos = nx.spring_layout(G)
     nx.draw_networkx_nodes(G, pos, nodelist=nodeList, node_color="tab:red", **options)
     
-    #edges (Branch data) contains starting, ending, current in branch, voltage on branch
+    # edges (Branch data) contains starting, ending, current in branch, voltage on branch
     edgesList = []
     for i in tree_branches:
-        #These str(2), str(3) should be replaced by the its corresponding values in the Voltage and Current matrices
+        # These str(2), str(3) should be replaced by the its corresponding values in the Voltage and Current matrices
         edgesList.append((i.starting_node, i.ending_node,str(chr(97+i.sequence))+str("\nTree\n") + str(2)+" mA, " + str(3)+" V" ))
-    
-    
+
     for i in links:
-        #These str(4), str(5) should be replaced by the its corresponding values in the Voltage and Current matrices
+        # These str(4), str(5) should be replaced by the its corresponding values in the Voltage and Current matrices
         edgesList.append((i.starting_node, i.ending_node, str(chr(97+i.sequence))+str("\nLink\n") +str(4)+" mA, " + str(5)+" V" ))
     
     
@@ -196,4 +210,3 @@ def generate_graph(tree_branches, links):
     
     plt.show()
 
-get_z_b()
