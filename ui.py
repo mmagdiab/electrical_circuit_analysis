@@ -174,7 +174,7 @@ class Ui(object):
         # generate graph for tree/co-tree
         
         #Call generating graph function.
-        generate_graph (tree_branches=tree_branches, links=links, vb=vb, jb=jb)
+        generate_graph (tree_branches=tree_branches, links=links, vb=v_b, jb=j_b)
 
         
         self.vb_label.setText("V_B: " + str(v_b))
