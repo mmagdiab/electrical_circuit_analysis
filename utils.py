@@ -1,6 +1,7 @@
 from random import shuffle
 import networkx as nx
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 """ Get a valid tree/co-tree of the electrical circuit
@@ -63,14 +64,79 @@ def tree(circuit_branches):
     links = [branch for branch in circuit_branches if branch not in tree_branches]
     return tree_branches, links
 
+    """ get_z_b
+        @Params: circuit_branches
+        @Return: n*n z_b matrix
+    """
+
+
+def get_z_b(circuit_branches):
+    n = len(circuit_branches)
+    z_b = np.zeros(shape=(n, n), dtype='int64')
+    print(z_b)
+    for index, branch in enumerate(circuit_branches):
+        if branch.resistance != 0:
+            z_b[index][index] = branch.resistance
+
+    """ get_i_b
+       @Params: circuit_branches
+       @Return: n*1 i_b matrix
+    """
+
+
+def get_i_b(circuit_branches):
+    n = len(circuit_branches)
+    i_b = np.zeros(shape=(n, 1), dtype='int64')
+    for index, branch in enumerate(circuit_branches):
+        if branch.current_source != 0:
+            i_b[index][1] = branch.current_source
+
+    """ get_i_b
+       @Params: circuit_branches
+       @Return: n*1 e_b matrix
+    """
+
+
+def get_e_b(circuit_branches):
+    n = len(circuit_branches)
+    e_b = np.zeros(shape=(n, 1), dtype='int64')
+    print(e_b)
+    for index, branch in enumerate(circuit_branches):
+        if branch.voltage_source != 0:
+            e_b[index][1] = branch.voltage_source
+
+    """ get_a_tree_or_links
+       @Params: tree_branches or links
+       @Return: n*n z_b matrix
+    """
+
+
+def get_a_matrix(branches):
+    # First get nodes count
+    nodes = []
+    for branch in branches:
+        nodes.append(branch.starting_node)
+        nodes.append(branch.ending_node)
+
+    nodes_count = len(set(nodes))
+    a_matrix = np.zeros(shape=(nodes_count, len(branches)), dtype='int64')
+    for index, branch in enumerate(branches):
+        a_tree[branch.starting_node][index] = 1
+        a_tree[branch.ending_node][index] = -1
+
+    return a_matrix
+
+
+
+
+
+
 def generate_graph(tree_branches, links):
-    
     # Create a Directed Graph object
     G = nx.DiGraph()
     options = {"edgecolors": "tab:gray", "node_size": 500, "alpha": 0.9}
 
-
-    #Count Nodes and add these nodes to the graph
+    # Count Nodes and add these nodes to the graph
     nodeList = []
     for node in tree_branches:
         nodeList.append(node.starting_node)
@@ -129,3 +195,5 @@ def generate_graph(tree_branches, links):
     nx.draw_networkx_edge_labels(G,pos, font_size=8,edge_labels=nx.get_edge_attributes(G,'edgesList'),label_pos=0.3)
     
     plt.show()
+
+get_z_b()

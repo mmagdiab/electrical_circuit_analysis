@@ -11,6 +11,8 @@ STEPS        :
 '''
 # ------------------------------------
 #  Calculate cut_set_matrix : Take [A_tree, A_link] and return C_Link to pass it to [tie_set_matrix_from_cut_set_matrix] function
+
+
 def cut_set_matrix_from_incidence_matrix(A_tree, A_link):
     # here I dropped the last row of incidence_matrix
     A_tree = pd.DataFrame(A_tree).iloc[0:-1, :]
