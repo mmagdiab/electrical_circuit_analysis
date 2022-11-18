@@ -5,7 +5,7 @@ Desktop application written in python to analysis any give electrical cirucuit.
   - Current on each branch as output (Jb vector)
   - Voltage on each branch (Vb vector)
   - a graph of the circuit consists of tree and links demonstrating current/voltage on each edge.
-## Depenencies
+## Dependencies
 - [numpy](https://numpy.org/)
 - [pandas](https://pandas.pydata.org/)
 - [PyQt5](https://pypi.org/project/PyQt5/)
@@ -15,7 +15,11 @@ Desktop application written in python to analysis any give electrical cirucuit.
 1. Clone the project.
 2. Make sure you have **python 2 or higher** installed.
 3. Open electrical_circuit_analysis folder in **CMD**.
-4. **Activate the virtual environment** by typing the following command in **CMD**.
+4. Create virtual environment.
+      > python -m venv .\venv
+5. **Activate the virtual environment** by typing the following command in **CMD**.
       > .\venv\Scripts\activate
-5. **Run** the main method
+6. Install required dependencies
+      > pip install numpy, pandas, pyqt5, networkx, matplotlib
+7. **Run** the main method
       > python main.py
