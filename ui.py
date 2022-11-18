@@ -13,7 +13,7 @@ class Ui(object):
         self.sequence = 0
 
         window.setObjectName("mainWindow")
-        window.resize(707, 562)
+        window.resize(407, 562)
         self.central_widget = QtWidgets.QWidget(window)
         self.central_widget.setObjectName("central_widget")
 
@@ -68,31 +68,31 @@ class Ui(object):
         self.text_boxes = []
 
         self.starting_node_text_box = QtWidgets.QTextEdit(self.central_widget)
-        self.starting_node_text_box.setGeometry(QtCore.QRect(130, 40, 81, 41))
+        self.starting_node_text_box.setGeometry(QtCore.QRect(160, 40, 81, 41))
         self.starting_node_text_box.setObjectName("starting_node_text_box")
         self.starting_node_text_box.setFont(font)
         self.text_boxes.append(self.starting_node_text_box)
 
         self.ending_node_text_box = QtWidgets.QTextEdit(self.central_widget)
-        self.ending_node_text_box.setGeometry(QtCore.QRect(130, 100, 81, 41))
+        self.ending_node_text_box.setGeometry(QtCore.QRect(160, 100, 81, 41))
         self.ending_node_text_box.setObjectName("ending_node_text_box")
         self.ending_node_text_box.setFont(font)
         self.text_boxes.append(self.ending_node_text_box)
 
         self.voltage_source_text_box = QtWidgets.QTextEdit(self.central_widget)
-        self.voltage_source_text_box.setGeometry(QtCore.QRect(130, 160, 81, 41))
+        self.voltage_source_text_box.setGeometry(QtCore.QRect(160, 160, 81, 41))
         self.voltage_source_text_box.setObjectName("voltage_source_text_box")
         self.voltage_source_text_box.setFont(font)
         self.text_boxes.append(self.voltage_source_text_box)
 
         self.current_source_text_box = QtWidgets.QTextEdit(self.central_widget)
-        self.current_source_text_box.setGeometry(QtCore.QRect(130, 220, 81, 41))
+        self.current_source_text_box.setGeometry(QtCore.QRect(160, 220, 81, 41))
         self.current_source_text_box.setObjectName("current_source_text_box")
         self.current_source_text_box.setFont(font)
         self.text_boxes.append(self.current_source_text_box)
 
         self.resistance_text_box = QtWidgets.QTextEdit(self.central_widget)
-        self.resistance_text_box.setGeometry(QtCore.QRect(130, 280, 81, 41))
+        self.resistance_text_box.setGeometry(QtCore.QRect(160, 280, 81, 41))
         self.resistance_text_box.setObjectName("resistance_text_box")
         self.resistance_text_box.setFont(font)
         self.text_boxes.append(self.resistance_text_box)
@@ -100,12 +100,12 @@ class Ui(object):
         # Buttons
 
         self.run_button = QtWidgets.QPushButton(self.central_widget)
-        self.run_button.setGeometry(QtCore.QRect(500, 350, 91, 31))
+        self.run_button.setGeometry(QtCore.QRect(140, 350, 91, 31))
         self.run_button.setObjectName("run_button")
         self.run_button.clicked.connect(self.run_clicked)
 
         self.next_button = QtWidgets.QPushButton(self.central_widget)
-        self.next_button.setGeometry(QtCore.QRect(60, 350, 91, 31))
+        self.next_button.setGeometry(QtCore.QRect(40, 350, 91, 31))
         self.next_button.setObjectName("next_button")
         self.next_button.clicked.connect(self.next_clicked)
 

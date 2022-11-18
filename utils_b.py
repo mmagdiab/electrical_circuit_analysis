@@ -46,7 +46,7 @@ def tie_set_method(tie_set_matrix, Z_B, E_B, I_B):
     LHS = np.reshape(LHS, (-1,1))
     # SO :  RHS * I_L = LHS      SO :   I_L = (RHS)^-1  * LHS
     I_L = np.dot(np.linalg.inv(RHS), LHS)
-    I_L = np.ceil(I_L)
+    # I_L = np.ceil(I_L)
     # 2- Second Find J_B from :   J_B = B.T * I_L
     J_B = np.dot(B.T, I_L)
     # 3- Third  Find V_B from  :  V_B = Z_B * (J_B+ I_B) - E_B
